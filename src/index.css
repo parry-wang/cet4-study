@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: "Source Serif 4", Georgia, serif;
+  line-height: 1.6;
+  font-weight: 400;
+  color: #1a1a1a;
+  background-color: #f7f3ec;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #f7f3ec;
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(122, 46, 46, 0.04) 0%, transparent 32%),
+    radial-gradient(circle at 88% 92%, rgba(184, 134, 11, 0.05) 0%, transparent 36%);
+}
+
+/* 衬线数字感分隔线 */
+.rule {
+  background-image: linear-gradient(to right, transparent, rgba(26, 26, 26, 0.18), transparent);
+  height: 1px;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(26, 26, 26, 0.18);
+  border-radius: 8px;
+  border: 2px solid #f7f3ec;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(122, 46, 46, 0.4);
+}
+
+/* 选中文本颜色 */
+::selection {
+  background: rgba(122, 46, 46, 0.18);
+  color: #1a1a1a;
+}
+
+/* 纸张纹理叠加层 */
+.grain-overlay {
+  position: relative;
+}
+.grain-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: multiply;
+  background-image:
+    radial-gradient(rgba(26, 26, 26, 0.04) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+
+/* 词卡 3D 翻转 */
+.flip-card {
+  perspective: 1600px;
+}
+.flip-inner {
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.flip-inner.is-flipped {
+  transform: rotateY(180deg);
+}
+.flip-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.flip-back {
+  transform: rotateY(180deg);
+}
