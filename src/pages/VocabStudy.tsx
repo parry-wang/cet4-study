@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Volume2, RotateCcw, Check, Brain, ArrowLeft } from 'lucide-react';
 import { useProgressStore } from '@/store/useProgressStore';
 import { vocabulary } from '@/data/vocabulary';
+import { useWordAudio } from '@/hooks/useWordAudio';
 import { useTTS } from '@/hooks/useTTS';
 
 export default function VocabStudy() {
   const { vocabulary: vocab, markWordStudied, markWordMastered } = useProgressStore();
+  const { play: playWord } = useWordAudio();
   const { speak } = useTTS();
 
   const todayWords = (() => {
@@ -100,7 +102,7 @@ export default function VocabStudy() {
               </h2>
               <p className="font-mono text-base text-ink-400 mb-8">{word.phonetic}</p>
               <button
-                onClick={(e) => { e.stopPropagation(); speak(word.word); }}
+                onClick={(e) => { e.stopPropagation(); playWord(word.word); }}
                 className="flex items-center gap-2 px-4 py-2 border border-wine-500/40 text-wine-600 text-xs font-mono uppercase tracking-wider hover:bg-wine-50 rounded-sm"
               >
                 <Volume2 size={14} /> 发音

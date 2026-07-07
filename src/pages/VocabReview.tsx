@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import { RefreshCw, Check, X, ArrowLeft, Volume2, Trophy, Inbox } from 'lucide-react';
 import { useProgressStore } from '@/store/useProgressStore';
 import { vocabulary } from '@/data/vocabulary';
-import { useTTS } from '@/hooks/useTTS';
+import { useWordAudio } from '@/hooks/useWordAudio';
 import type { WrongWord } from '@/data/types';
 
 type Status = 'answering' | 'correct' | 'wrong' | 'finished';
 
 export default function VocabReview() {
   const { vocabulary: vocab, reviewWrongWord, getDueWrongWords } = useProgressStore();
-  const { speak } = useTTS();
+  const { play: playWord } = useWordAudio();
 
   const dueWords = useMemo(() => getDueWrongWords(), [getDueWrongWords, vocab.wrong]);
 
@@ -190,7 +190,7 @@ export default function VocabReview() {
             </h2>
             <p className="font-mono text-sm text-paper-400 mb-6">{currentWord.phonetic}</p>
             <button
-              onClick={() => speak(currentWord.word)}
+              onClick={() => playWord(currentWord.word)}
               className="flex items-center gap-2 px-4 py-2 border border-paper-400/30 text-paper-100 text-xs font-mono uppercase tracking-wider hover:bg-paper-400/10 rounded-sm"
             >
               <Volume2 size={14} /> 发音

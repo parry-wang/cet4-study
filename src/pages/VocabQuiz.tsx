@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Brain, Check, X, ArrowLeft, Volume2, RotateCw, Trophy } from 'lucide-react';
 import { useProgressStore } from '@/store/useProgressStore';
 import { vocabulary } from '@/data/vocabulary';
-import { useTTS } from '@/hooks/useTTS';
+import { useWordAudio } from '@/hooks/useWordAudio';
 
 type Mode = 'en2cn' | 'cn2en' | 'dictation';
 type Status = 'answering' | 'correct' | 'wrong' | 'finished';
@@ -30,7 +30,7 @@ function shuffle<T>(arr: T[]): T[] {
 
 export default function VocabQuiz() {
   const { vocabulary: vocab, addWrongWord, markWordStudied } = useProgressStore();
-  const { speak } = useTTS();
+  const { play: playWord } = useWordAudio();
 
   const todayWords = useMemo(() => {
     const start = vocab.dayIndex * 50;
@@ -92,10 +92,10 @@ export default function VocabQuiz() {
   // 听写模式自动播放
   useEffect(() => {
     if (selectedMode === 'dictation' && currentItem && status === 'answering') {
-      const t = setTimeout(() => speak(currentItem.word), 400);
+      const t = setTimeout(() => playWord(currentItem.word), 400);
       return () => clearTimeout(t);
     }
-  }, [currentItem, selectedMode, status, speak]);
+  }, [currentItem, selectedMode, status, playWord]);
 
   const handleSelect = (opt: string) => {
     if (status !== 'answering' || !currentItem) return;
@@ -239,7 +239,7 @@ export default function VocabQuiz() {
               听发音选释义
             </span>
             <button
-              onClick={() => speak(currentItem.word)}
+              onClick={() => playWord(currentItem.word)}
               className="w-16 h-16 flex items-center justify-center bg-wine-600 text-paper-50 hover:bg-wine-700 rounded-full"
             >
               <Volume2 size={26} />
@@ -256,7 +256,7 @@ export default function VocabQuiz() {
             </h2>
             <p className="font-mono text-sm text-ink-400">{currentItem.phonetic}</p>
             <button
-              onClick={() => speak(currentItem.word)}
+              onClick={() => playWord(currentItem.word)}
               className="mt-3 text-wine-500 hover:text-wine-600"
               aria-label="发音"
             >
